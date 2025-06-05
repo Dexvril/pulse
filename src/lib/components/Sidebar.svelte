@@ -1,127 +1,126 @@
-<!-- src/lib/components/Sidebar.svelte -->
 <script>
-    export let activeMenu = '';
+  import { page } from '$app/stores';
+
+  let isDataManagementOpen = true;
 </script>
 
-<div class="sidebar">
-    <div class="logo">Autopulse</div>
+<aside>
+  <div class="logo">
+    <img src="/autopulse-logo.png" alt="Autopulse Logo" />
+    <h1>AUTOPULSE</h1>
+  </div>
+  <nav>
     <ul>
-        <li class:active={activeMenu === 'dashboard'}>
-            <a href="/dashboard"><span>📊</span> Dashboard</a>
-        </li>
-        <li class:active={activeMenu === 'data-management'} class="dropdown">
-            <a href="#" class="dropdown-toggle"><span>📊</span> Data Management</a>
-            <div class="dropdown-content">
-                <a href="/data-management" class:active={activeMenu === 'workshop'}>Workshop Information</a>
-                <a href="/member" class:active={activeMenu === 'member'}>Member</a>
-                <a href="/captain" class:active={activeMenu === 'captain'}>Captain</a>
-                <a href="/available-brand" class:active={activeMenu === 'available-brand'}>Available Brand</a>
-                <a href="/service" class:active={activeMenu === 'service'}>Service</a>
-                <a href="/spare-part" class:active={activeMenu === 'spare-part'}>Spare Part</a>
-                <a href="/car-information" class:active={activeMenu === 'car-information'}>Car Information</a>
-            </div>
-        </li>
-        <li class:active={activeMenu === 'aktivitas-servis'}>
-            <a href="/aktivitas-servis"><span>🔧</span> Aktivitas Servis</a>
-        </li>
-        <li class:active={activeMenu === 'logbook'}>
-            <a href="/logbook"><span>📖</span> Logbook</a>
-        </li>
-        <li class:active={activeMenu === 'finance'}>
-            <a href="/finance"><span>💰</span> Finance</a>
-        </li>
-        <li class:active={activeMenu === 'promo'}>
-            <a href="/promo"><span>📣</span> Promo</a>
-        </li>
-        <li class:active={activeMenu === 'brand-registration'}>
-            <a href="/brand-registration"><span>🏷️</span> Brand Registration</a>
-        </li>
+      <li class:active={$page.url.pathname === '/dashboard'}>
+        <a href="/dashboard">Dashboard</a>
+      </li>
+      <li class:active={$page.url.pathname.startsWith('/data-management')}>
+        <a href="/data-management" on:click|preventDefault={() => (isDataManagementOpen = !isDataManagementOpen)}>
+          Data Management {isDataManagementOpen ? '▼' : '▶'}
+        </a>
+        <ul class="submenu" class:collapsed={!isDataManagementOpen}>
+          <li class:active={$page.url.pathname === '/data-management/workshop-information'}>
+            <a href="/data-management/workshop-information">Workshop Information</a>
+          </li>
+          <li class:active={$page.url.pathname === '/data-management/member'}>
+            <a href="/data-management/member">Member</a>
+          </li>
+          <li class:active={$page.url.pathname === '/data-management/captain'}>
+            <a href="/data-management/captain">Captain</a>
+          </li>
+          <li class:active={$page.url.pathname === '/data-management/available-brand'}>
+            <a href="/data-management/available-brand">Available Brand</a>
+          </li>
+          <li class:active={$page.url.pathname === '/data-management/service'}>
+            <a href="/data-management/service">Servis</a>
+          </li>
+          <li class:active={$page.url.pathname === '/data-management/spare-part'}>
+            <a href="/data-management/spare-part">Spare Part</a>
+          </li>
+          <li class:active={$page.url.pathname === '/data-management/car-information'}>
+            <a href="/data-management/car-information">Car Information</a>
+          </li>
+        </ul>
+      </li>
+      <li class:active={$page.url.pathname === '/service-information'}>
+        <a href="/service-information">Informasi Servis</a>
+      </li>
+       <li class:active={$page.url.pathname === '/logbook'}>
+        <a href="/logbook">logbook</a>
+      </li>
+        <li class:active={$page.url.pathname === '/promotion'}>
+        <a href="/promotion">Promosi</a>
+      </li>
+        <li class:active={$page.url.pathname === '/brand-registation'}>
+        <a href="/brand-registation">Brand Registation</a>
+      </li>
     </ul>
-</div>
+  </nav>
+</aside>
 
 <style>
-    .sidebar {
-        width: 250px;
-        height: 100vh;
-        background-color: #1a3c54;
-        color: white;
-        position: fixed;
-        padding: 20px 0;
-        display: flex;
-        flex-direction: column;
-        z-index: 100;
-    }
+  aside {
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(180deg, #2c3e50 0%, #3498db 100%);
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+  }
 
-    .sidebar .logo {
-        font-size: 20px;
-        text-align: center;
-        margin-bottom: 30px;
-        color: #3498db;
-    }
+  .logo {
+    text-align: center;
+    margin-bottom: 30px;
+  }
 
-    .sidebar ul {
-        list-style: none;
-        flex-grow: 1;
-    }
+  .logo img {
+    width: 50px;
+    height: auto;
+  }
 
-    .sidebar ul li {
-        padding: 10px 20px;
-        position: relative;
-    }
+  h1 {
+    font-size: 1.5rem;
+    margin-top: 10px;
+  }
 
-    .sidebar ul li a {
-        color: white;
-        text-decoration: none;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+  nav ul {
+    list-style: none;
+    padding: 0;
+  }
 
-    .sidebar ul li a:hover {
-        background-color: #2980b9;
-    }
+  nav ul li {
+    margin-bottom: 10px;
+  }
 
-    .sidebar ul li.active > a {
-        background-color: #2980b9;
-    }
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+  }
 
-    .dropdown {
-        position: relative;
-    }
+  nav ul li a:hover, nav ul li.active a {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
 
-    .dropdown-toggle {
-        cursor: pointer;
-    }
+  .submenu {
+    margin-top: 5px;
+    margin-left: 20px;
+    list-style: none;
+    transition: max-height 0.3s ease-out;
+    max-height: 500px;
+  }
 
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        left: 100%;
-        top: 0;
-        background-color: #1a3c54;
-        min-width: 200px;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-        z-index: 101;
-    }
+  .submenu.collapsed {
+    max-height: 0;
+    overflow: hidden;
+  }
 
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
-
-    .dropdown-content a {
-        color: white;
-        padding: 10px 20px;
-        text-decoration: none;
-        display: block;
-        font-size: 12px;
-    }
-
-    .dropdown-content a:hover {
-        background-color: #2980b9;
-    }
-
-    .dropdown-content a.active {
-        background-color: #2980b9;
-    }
+  .submenu li a {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+  }
 </style>
